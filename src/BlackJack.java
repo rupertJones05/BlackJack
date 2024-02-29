@@ -1,19 +1,18 @@
 import java.util.Scanner;
-import java.sql.Array;
 import java.util.ArrayList;
 public class BlackJack {
 
     private CardDeck deck;
     private ArrayList<Card> player;
     private ArrayList<Card> dealer;
-
+    private Scanner kb;
     int playerValue, dealerValue;
 
     public BlackJack() {
         deck = new CardDeck();
         player = new ArrayList<>();
         dealer = new ArrayList<>();
-        Scanner kb = new Scanner(System.in);
+        kb = new Scanner(System.in);
 
     }
     public static void main(String[] args) {
@@ -29,7 +28,7 @@ public class BlackJack {
         dealer.add(deck.getCard());
         System.out.println("Dealer's Hand: " + dealer.getFirst() + " ?");
         printPlayer();
-        addCardsValue();
+        addPlayerValues();
         System.out.println();
     }
 
@@ -38,7 +37,7 @@ public class BlackJack {
         for (int i = 0; i < dealer.toArray().length; i++) {
             System.out.print(dealer.get(i) + " ");
         }
-        System.out.println("");
+        System.out.println();
 
         System.out.print("Player's Hand: ");
         for (int i = 0; i < player.toArray().length; i++) {
@@ -63,10 +62,10 @@ public class BlackJack {
         System.out.println("");
     }
 
-    boolean runAgain = false;;
-                             
+    boolean runAgain = false;
+
     public void hitOrStand() {
-        Scanner kb = new Scanner(System.in);
+
 
         while(true) {
             System.out.println("Would you like to hit or stand?");
@@ -86,7 +85,7 @@ public class BlackJack {
             } else {
                 System.out.println("Please enter a valid input of 'hit' or 'stand'.");
             }
-        }  
+        }
     }
 
     public void checkResult() {
@@ -102,8 +101,15 @@ public class BlackJack {
             System.out.println("You've both drawn");
         }
     }
-        
-            
+
+
+    public void addPlayerValues() {
+        playerValue = 0;
+        for (int i = 0; i < player.size(); i++) {
+            playerValue += player.get(i).getCardValue();
+        }
+        System.out.println("PLayer's total value = " + playerValue);
+    }
 
     public void addCardsValue() {
         dealerValue = 0;
@@ -115,14 +121,14 @@ public class BlackJack {
                 numberOfAces++;
             }
         }
-        
+
         while(numberOfAces > 0 && dealerValue > 21) {
             dealerValue -= 10;
             numberOfAces--;
         }
-        
+
         System.out.println("Dealer's total value = " + dealerValue);
-        
+
 
         playerValue = 0;
         for (int i = 0; i < player.size(); i++) {
@@ -131,7 +137,7 @@ public class BlackJack {
                 numberOfAces++;
             }
         }
-        
+
         while(numberOfAces > 0 && playerValue > 21) {
             playerValue -= 10;
             numberOfAces--;
@@ -141,26 +147,26 @@ public class BlackJack {
     }
 
     private void run() {
-        while(true) { 
+        while(true) {
             deck.shuffle();
             player.clear();
             dealer.clear();
-            
+
             dealCards();
-            
+
             hitOrStand();
 
             while(dealerValue < 17) {
                 dealer.add(deck.getCard());
                 addCardsValue();
             }
-            printAll():
+            printAll();
             checkResult();
 
             System.out.println("Would you like to play another round? (type 'yes' or 'no')");
             String userInput2 = kb.nextLine().toLowerCase();
-            
-            if(userInput2.equals("no") {
+
+            if(userInput2.equals("no")) {
                 System.out.println("Thank you for playing!");
                 break;
             }
