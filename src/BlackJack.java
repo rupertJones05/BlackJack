@@ -107,7 +107,7 @@ public class BlackJack {
 
     public void addCardsValue() {
         dealerValue = 0;
-        int numberOfAces;
+        int numberOfAces = 0;
         for (int i = 0; i < dealer.size(); i++) {
             dealerValue += dealer.get(i).getCardValue();
 
