@@ -62,26 +62,34 @@ public class BlackJack {
         System.out.println("");
     }
 
-    boolean runAgain = false;
 
     public void hitOrStand() {
-
-
         while(true) {
             System.out.println("Would you like to hit or stand?");
             String userInput = kb.nextLine().toLowerCase();
-
-            if(userInput.equals("hit")) {
+                if(userInput.equals("hit")) {
                 player.add(deck.getCard());
                 printAll();
                 addCardsValue();
+                    if(playerValue > 21) {
+                        System.out.println("You've lost");
+                        break;
+                    } else if(dealerValue > 21) {
+                        System.out.println("You've won");
+                        break;
+                    } else if(playerValue > dealerValue) {
+                        System.out.println("You've won");
+                        break;
+                    } else if(dealerValue > playerValue) {
+                        System.out.println("You've lost");
+                        break;
+                    } else {
+                        System.out.println("You've both drawn");
+                        break;
+                    }
 
-                if(playerValue > 21) {
-                    System.out.println("You've Lost!");
-                    break;
-                }
             } else if(userInput.equals("stand")) {
-                break;
+                    break;
             } else {
                 System.out.println("Please enter a valid input of 'hit' or 'stand'.");
             }
@@ -161,7 +169,6 @@ public class BlackJack {
                 addCardsValue();
             }
             printAll();
-            checkResult();
 
             System.out.println("Would you like to play another round? (type 'yes' or 'no')");
             String userInput2 = kb.nextLine().toLowerCase();
