@@ -63,32 +63,26 @@ public class BlackJack {
     }
 
 
+    boolean done = false;
+    boolean lost = false;
+
     public void hitOrStand() {
         while(true) {
             System.out.println("Would you like to hit or stand?");
             String userInput = kb.nextLine().toLowerCase();
                 if(userInput.equals("hit")) {
                 player.add(deck.getCard());
-                printAll();
-                addCardsValue();
+                printPlayer();
+                addPlayerValues();
+
                     if(playerValue > 21) {
                         System.out.println("You've lost");
-                        break;
-                    } else if(dealerValue > 21) {
-                        System.out.println("You've won");
-                        break;
-                    } else if(playerValue > dealerValue) {
-                        System.out.println("You've won");
-                        break;
-                    } else if(dealerValue > playerValue) {
-                        System.out.println("You've lost");
-                        break;
-                    } else {
-                        System.out.println("You've both drawn");
+                        lost = true;
                         break;
                     }
 
             } else if(userInput.equals("stand")) {
+                    done = true;
                     break;
             } else {
                 System.out.println("Please enter a valid input of 'hit' or 'stand'.");
@@ -159,16 +153,23 @@ public class BlackJack {
             deck.shuffle();
             player.clear();
             dealer.clear();
-
             dealCards();
 
-            hitOrStand();
-
-            while(dealerValue < 17) {
-                dealer.add(deck.getCard());
-                addCardsValue();
+            if(playerValue != 21 && dealerValue != 21) {
+                hitOrStand();
             }
-            printAll();
+
+            if(done) {
+                while(dealerValue < 17) {
+                    dealer.add(deck.getCard());
+                    printDealer();
+                    printPlayer();
+                    addCardsValue();
+
+                }
+                done = false;
+                checkResult();
+            }
 
             System.out.println("Would you like to play another round? (type 'yes' or 'no')");
             String userInput2 = kb.nextLine().toLowerCase();
