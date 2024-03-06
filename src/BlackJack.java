@@ -32,6 +32,35 @@ public class BlackJack {
         System.out.println();
     }
 
+    public void calculateAces() {
+        int numAces = 0;
+        playerValue = 0;
+        for (int i = 0; i < player.size(); i++) {
+            playerValue += player.get(i).getCardValue();
+            if(player.get(i).getCardValue() == 11) {
+                numAces++;
+            }
+        }
+
+        if(numAces > 0) {
+            playerValue -= 10;
+            numAces = 0;
+        }
+
+        dealerValue = 0;
+        for(int i = 0; i < dealer.size(); i++) {
+            dealerValue += dealer.get(i).getCardValue();
+            if(dealer.get(i).getCardValue() == 11) {
+                numAces++;
+            }
+        }
+
+        if (numAces > 0) {
+            playerValue -= 10;
+            numAces = 0;
+        }
+    }
+
     public void printAll() {
         System.out.print("Dealer's Hand: ");
         for (int i = 0; i < dealer.toArray().length; i++) {
@@ -59,7 +88,7 @@ public class BlackJack {
         for (int i = 0; i < player.toArray().length; i++) {
             System.out.print(player.get(i) + " ");
         }
-        System.out.println("");
+        System.out.println();
     }
 
 
@@ -83,6 +112,7 @@ public class BlackJack {
 
             } else if(userInput.equals("stand")) {
                     done = true;
+
                     break;
             } else {
                 System.out.println("Please enter a valid input of 'hit' or 'stand'.");
@@ -111,6 +141,7 @@ public class BlackJack {
             playerValue += player.get(i).getCardValue();
         }
         System.out.println("PLayer's total value = " + playerValue);
+        System.out.println();
     }
 
     public void addCardsValue() {
@@ -129,6 +160,7 @@ public class BlackJack {
             numberOfAces--;
         }
 
+
         System.out.println("Dealer's total value = " + dealerValue);
 
 
@@ -145,6 +177,7 @@ public class BlackJack {
             numberOfAces--;
         }
         System.out.println("Player's total value = " + playerValue);
+        System.out.println();
 
     }
 
