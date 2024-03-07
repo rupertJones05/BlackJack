@@ -38,26 +38,27 @@ public class BlackJack {
         for (int i = 0; i < player.size(); i++) {
             playerValue += player.get(i).getCardValue();
             if(player.get(i).getCardValue() == 11) {
-                numAces++;
+                numAces += 1;
             }
         }
 
-        if(numAces > 0) {
+        while(playerValue > 21 && numAces > 0) {
             playerValue -= 10;
-            numAces = 0;
+            numAces --;
         }
 
+        int dealerAces = 0;
         dealerValue = 0;
         for(int i = 0; i < dealer.size(); i++) {
             dealerValue += dealer.get(i).getCardValue();
             if(dealer.get(i).getCardValue() == 11) {
-                numAces++;
+                dealerAces += 1;
             }
         }
 
-        if (numAces > 0) {
-            playerValue -= 10;
-            numAces = 0;
+        while (numAces > 0 && dealerValue > 21) {
+            dealerValue -= 10;
+            dealerAces -= 1;
         }
     }
 
@@ -102,7 +103,8 @@ public class BlackJack {
                 if(userInput.equals("hit")) {
                 player.add(deck.getCard());
                 printPlayer();
-                addPlayerValues();
+                calculateAces();
+
 
                     if(playerValue > 21) {
                         System.out.println("You've lost");
@@ -181,6 +183,8 @@ public class BlackJack {
 
     }
 
+    boolean dealerEndTurn = false;
+
     private void run() {
         while(true) {
             deck.shuffle();
@@ -193,14 +197,22 @@ public class BlackJack {
             }
 
             if(done) {
+                calculateAces();
                 while(dealerValue < 17) {
                     dealer.add(deck.getCard());
+                    calculateAces();
                     printDealer();
                     printPlayer();
-                    addCardsValue();
-
+                    dealerEndTurn = true;
                 }
-                done = false;
+                if (dealerEndTurn) {
+                    checkResult();
+                    dealerEndTurn = false;
+                }
+            } else {
+                printPlayer();
+                printDealer();
+                addCardsValue();
                 checkResult();
             }
 
